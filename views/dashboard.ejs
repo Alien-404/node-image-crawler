@@ -1,0 +1,73 @@
+<!-- views/dashboard.ejs -->
+<div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="dashboard-header">
+        <div class="header-icon">
+            <i class="fas fa-database"></i>
+        </div>
+        <div class="header-text">
+            <h1>Database Image Crawler</h1>
+            <p>Select a database table to start downloading your images</p>
+        </div>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="info-cards">
+        <div class="info-card blue">
+            <div class="card-icon">
+                <i class="fas fa-table"></i>
+            </div>
+            <div class="card-content">
+                <h3>Available Tables</h3>
+                <p>
+                    <%= tables.length %> tables found in your database
+                </p>
+            </div>
+        </div>
+
+        <div class="info-card purple">
+            <div class="card-icon">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+            <div class="card-content">
+                <h3>Next Steps</h3>
+                <p>Choose a table to configure image download settings</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Selection Card -->
+    <div class="main-card">
+        <h2>Select Database Table</h2>
+
+        <% if (messages.error) { %>
+            <div class="error-alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>
+                    <%= messages.error %>
+                </p>
+            </div>
+            <% } %>
+
+                <form action="/check-table" method="POST">
+                    <div class="form-group">
+                        <label>Table Name</label>
+                        <div class="select-wrapper">
+                            <select name="tableName" required>
+                                <option value="">Select a table</option>
+                                <% tables.forEach(table=> { %>
+                                    <option value="<%= table %>">
+                                        <%= table %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        Continue
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+    </div>
+</div>

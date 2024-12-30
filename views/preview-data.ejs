@@ -1,0 +1,107 @@
+<!-- views/preview-data.ejs -->
+<div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="dashboard-header">
+        <div class="header-icon">
+            <i class="fas fa-table"></i>
+        </div>
+        <div class="header-text">
+            <h1>Data Preview</h1>
+            <p>Review your data before proceeding to download options</p>
+        </div>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="info-cards">
+        <div class="info-card blue">
+            <div class="card-icon">
+                <i class="fas fa-database"></i>
+            </div>
+            <div class="card-content">
+                <h3>Total Records</h3>
+                <p>
+                    <%= totalCount.toLocaleString() %> records found
+                </p>
+            </div>
+        </div>
+
+        <div class="info-card purple">
+            <div class="card-icon">
+                <i class="fas fa-image"></i>
+            </div>
+            <div class="card-content">
+                <h3>Preview Sample</h3>
+                <p>Showing first <%= preview.length %> records</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Data Card -->
+    <div class="main-card">
+        <h2>Data Sample Preview</h2>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image URL</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% preview.forEach(row=> { %>
+                        <tr>
+                            <td class="id-column">
+                                <%= row.id %>
+                            </td>
+                            <td class="url-column">
+                                <div class="url-wrapper">
+                                    <%= row[Object.keys(row)[1]] %>
+                                        <button class="copy-btn" onclick="copyUrl(this)"
+                                            data-url="<%= row[Object.keys(row)[1]] %>">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                </div>
+                            </td>
+                            <td class="action-column">
+                                <a href="<%= row[Object.keys(row)[1]] %>" target="_blank" class="action-btn">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    Open
+                                </a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button-group mt-4">
+            <a href="/select-column" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+            <a href="/download-options" class="submit-btn">
+                Continue to Download Options
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyUrl(button) {
+        const url = button.getAttribute('data-url');
+        navigator.clipboard.writeText(url).then(() => {
+            // Change icon temporarily
+            const icon = button.querySelector('i');
+            icon.classList.remove('fa-copy');
+            icon.classList.add('fa-check');
+
+            setTimeout(() => {
+                icon.classList.remove('fa-check');
+                icon.classList.add('fa-copy');
+            }, 1500);
+        });
+    }
+</script>

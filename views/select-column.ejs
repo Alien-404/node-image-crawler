@@ -1,0 +1,74 @@
+<!-- views/select-column.ejs -->
+<div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="dashboard-header">
+        <div class="header-icon">
+            <i class="fas fa-columns"></i>
+        </div>
+        <div class="header-text">
+            <h1>Select URL Column</h1>
+            <p>Choose the column that contains your image URLs</p>
+        </div>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="info-cards">
+        <div class="info-card blue">
+            <div class="card-icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="card-content">
+                <h3>Column Selection</h3>
+                <p>Select the column that contains valid image URLs for downloading</p>
+            </div>
+        </div>
+
+        <div class="info-card purple">
+            <div class="card-icon">
+                <i class="fas fa-list"></i>
+            </div>
+            <div class="card-content">
+                <h3>Available Columns</h3>
+                <p>
+                    <%= columns.length %> columns found in selected table
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Selection Card -->
+    <div class="main-card">
+        <h2>Select Image URL Column</h2>
+
+        <form action="/preview" method="POST">
+            <div class="form-group">
+                <label>Column Name</label>
+                <div class="select-wrapper">
+                    <select name="urlColumn" required>
+                        <% columns.forEach(column=> { %>
+                            <option value="<%= column.column_name %>">
+                                <span class="column-name">
+                                    <%= column.column_name %>
+                                </span>
+                                <span class="column-type">(<%= column.data_type %>)</span>
+                            </option>
+                            <% }) %>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <small class="helper-text">Choose the column containing image URLs (typically URLs or text type)</small>
+            </div>
+
+            <div class="button-group">
+                <a href="/" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </a>
+                <button type="submit" class="submit-btn">
+                    Preview Data
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
